@@ -1,0 +1,14 @@
+{
+    "heroes": [
+        {
+            "MaxHP": 20,
+            "MaxPM": 3,
+            "MaxPA": 6,
+            "Name": "Nausicaa",
+            "ActionsId": [
+                0,
+                2
+            ]
+        }
+    ]
+}

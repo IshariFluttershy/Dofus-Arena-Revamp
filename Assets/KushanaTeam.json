@@ -1,0 +1,13 @@
+{
+    "heroes": [
+        {
+            "MaxHP": 20,
+            "MaxPM": 5,
+            "MaxPA": 6,
+            "Name": "Kushana",
+            "ActionsId": [
+                1
+            ]
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "actions": [
+        {
+            "Name": "Distance Atk",
+            "MinRange": 3,
+            "MaxRange": 5,
+            "PACost": 3,
+            "Damages": 5,
+            "IsBlocking": false,
+            "Id": 0
+        },
+        {
+            "Name": "CaC Atk",
+            "MinRange": 1,
+            "MaxRange": 1,
+            "PACost": 6,
+            "Damages": 12,
+            "IsBlocking": false,
+            "Id": 1
+        },
+		{
+            "Name": "Magic Atk",
+            "MinRange": 1,
+            "MaxRange": 3,
+            "PACost": 2,
+            "Damages": 2,
+            "IsBlocking": false,
+            "Id": 2
+        }
+    ]
+}
