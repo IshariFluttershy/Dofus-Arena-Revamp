@@ -1,0 +1,43 @@
+{
+    "Cost": 6000,
+    "Wins": 8,
+    "Loss": 2,
+    "ConsecutiveWins": 4,
+    "ConsecutiveLoss": 0,
+    "Name": "KushanaTeam",
+    "Image": "",
+    "HeroesDatas": [
+        {
+            "MaxHP": 20,
+            "MaxPM": 3,
+            "MaxPA": 6,
+            "Name": "Kushana",
+            "Class": "",
+            "ActionsId": [
+                0,
+                2
+            ]
+        },
+        {
+            "MaxHP": 35,
+            "MaxPM": 5,
+            "MaxPA": 5,
+            "Name": "Oma",
+            "Class": "",
+            "ActionsId": [
+                1
+            ]
+        },
+        {
+            "MaxHP": 10,
+            "MaxPM": 4,
+            "MaxPA": 4,
+            "Name": "Kurotawa",
+            "Class": "",
+            "ActionsId": [
+                0,
+                1
+            ]
+        }
+    ]
+}

@@ -5,6 +5,20 @@ using System.IO;
 
 public class HeroSerializer : MonoBehaviour
 {
+    static HeroSerializer _instance;
+    public static HeroSerializer Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<HeroSerializer>();
+            }
+
+            return _instance;
+        }
+    }
+
     [SerializeField]
     Hero heroPrefab;
 
@@ -13,48 +27,56 @@ public class HeroSerializer : MonoBehaviour
     [SerializeField]
     List<GridCell> playerTwoStartCells;
 
+    ActionsWrapper actionsWrapper;
+    public List<TeamData> TeamDatas { get; private set; }
+
     private void Awake()
     {
         //Actions read
         string destination = Application.dataPath + "/actionsList.json";
-        StreamReader file;
+        StreamReader actionsFile;
 
         if (File.Exists(destination))
-            file = File.OpenText(destination);
+            actionsFile = File.OpenText(destination);
         else 
             return;
 
-        ActionsWrapper wrapper = JsonUtility.FromJson<ActionsWrapper>(file.ReadToEnd());
+        actionsWrapper = JsonUtility.FromJson<ActionsWrapper>(actionsFile.ReadToEnd());
 
-        file.Close();
+        actionsFile.Close();
+
+        TeamDatas = new List<TeamData>();
+
+        string[] files = Directory.GetFiles(Application.dataPath + "/Teams", "*.json");
+
+        foreach (var file in files)
+        {
+            StreamReader heroFile;
+
+            if (File.Exists(file))
+                heroFile = File.OpenText(file);
+            else
+                return;
+
+            string lol = heroFile.ReadToEnd();
+            Debug.Log(lol);
+            TeamData firstTeamDatas = JsonUtility.FromJson<TeamData>(lol);
+            TeamDatas.Add(firstTeamDatas);
+            heroFile.Close();
+        }
 
 
-
-
-        // Heroes read
-        destination = Application.dataPath + "/NausicaaTeam.json";
-        StreamReader heroFile;
-        
-        if (File.Exists(destination))
-            heroFile = File.OpenText(destination);
-        else
-            return;
-
-        HeroDataWrapper heroWrapper = JsonUtility.FromJson<HeroDataWrapper>(heroFile.ReadToEnd());
-
-        heroFile.Close();
-
-        // Heroes read
-        destination = Application.dataPath + "/KushanaTeam.json";
-
-        if (File.Exists(destination))
-            heroFile = File.OpenText(destination);
-        else
-            return;
-
-        HeroDataWrapper secondHeroWrapper = JsonUtility.FromJson<HeroDataWrapper>(heroFile.ReadToEnd());
-
-        heroFile.Close();
+        //// Heroes read
+        //destination = Application.dataPath + "/KushanaTeam.json";
+        //
+        //if (File.Exists(destination))
+        //    heroFile = File.OpenText(destination);
+        //else
+        //    return;
+        //
+        //TeamData secondTeamDatas = JsonUtility.FromJson<TeamData>(heroFile.ReadToEnd());
+        //TeamDatas.Add(secondTeamDatas);
+        //heroFile.Close();
 
 
 
@@ -62,7 +84,7 @@ public class HeroSerializer : MonoBehaviour
 
         var actionList = new List<ActionData>();
 
-        foreach (var action in wrapper.actions)
+        foreach (var action in actionsWrapper.actions)
         {
             actionList.Add(action); 
         }
@@ -77,16 +99,16 @@ public class HeroSerializer : MonoBehaviour
         //heroData.ActionsId = new List<int>();
 
 
-        HeroData heroData = heroWrapper.heroes[0];
-
-        var hero = Instantiate<Hero>(heroPrefab);
-        hero.Init(heroData);
-        hero.SetCurrentCell(playerOneStartCells[0]);
-
-        HeroData secondHeroData = secondHeroWrapper.heroes[0];
-        hero = Instantiate<Hero>(heroPrefab);
-        hero.Init(secondHeroData);
-        hero.SetCurrentCell(playerTwoStartCells[0]);
+        //HeroData heroData = heroWrapper.heroes[0];
+        //
+        //var hero = Instantiate<Hero>(heroPrefab);
+        //hero.Init(heroData);
+        //hero.SetCurrentCell(playerOneStartCells[0]);
+        //
+        //HeroData secondHeroData = secondHeroWrapper.heroes[0];
+        //hero = Instantiate<Hero>(heroPrefab);
+        //hero.Init(secondHeroData);
+        //hero.SetCurrentCell(playerTwoStartCells[0]);
     }
 
     // Start is called before the first frame update
@@ -138,7 +160,7 @@ public class HeroSerializer : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.P))
         {
-            HeroDataWrapper wrapper = new HeroDataWrapper();
+            TeamData team = new TeamData();
 
             HeroData heroData = new HeroData();
             heroData.MaxHP = 20;
@@ -149,9 +171,37 @@ public class HeroSerializer : MonoBehaviour
             heroData.ActionsId.Add(0);
             heroData.ActionsId.Add(2);
 
-            wrapper.heroes.Add(heroData);
+            team.HeroesDatas.Add(heroData);
 
-            string actionJson = JsonUtility.ToJson(wrapper, true);
+            heroData = new HeroData();
+            heroData.MaxHP = 35;
+            heroData.MaxPA = 5;
+            heroData.MaxPM = 5;
+            heroData.Name = "Yupa";
+            heroData.ActionsId = new List<int>();
+            heroData.ActionsId.Add(1);
+
+            team.HeroesDatas.Add(heroData);
+
+            heroData = new HeroData();
+            heroData.MaxHP = 10;
+            heroData.MaxPA = 4;
+            heroData.MaxPM = 4;
+            heroData.Name = "Asbel";
+            heroData.ActionsId = new List<int>();
+            heroData.ActionsId.Add(0);
+            heroData.ActionsId.Add(1);
+
+            team.HeroesDatas.Add(heroData);
+
+            team.ConsecutiveLoss = 0;
+            team.ConsecutiveWins = 4;
+            team.Name = "NausicaaTeam";
+            team.Loss = 2;
+            team.Wins = 8;
+            team.Cost = 6000;
+
+            string actionJson = JsonUtility.ToJson(team, true);
 
             string destination = Application.dataPath + "/NausicaaTeam.json";
             StreamWriter file;

@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+public enum HeroClass
+{
+    IskaiWarrior,
+    IskaiMagician,
+    CeltWarrior,
+    CeltMagician
+}
+
+
 [Serializable]
 public class HeroData
 {
@@ -11,5 +20,6 @@ public class HeroData
     public int MaxPA;
 
     public string Name;
+    public string Class;
     public List<int> ActionsId;
 }

@@ -4,11 +4,11 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class HeroDataWrapper
+public class TeamDataWrapper
 {
     public List<HeroData> heroes;
 
-    public HeroDataWrapper()
+    public TeamDataWrapper()
     {
         heroes = new List<HeroData>();
     }

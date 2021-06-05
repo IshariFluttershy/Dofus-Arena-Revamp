@@ -38,7 +38,10 @@ public class UIManager : MonoBehaviour
             if (i > hero.ActionsCount() - 1)
                 actionButtons[i].SetActive(false);
             else
+            {
                 actionButtons[i].SetActive(true);
+                actionButtons[i].GetComponentInChildren<Text>().text = hero.ActionName(i);
+            }
         }
     }
 

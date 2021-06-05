@@ -213,6 +213,11 @@ public class Hero : MonoBehaviour
         return Actions.Count;
     }
 
+    public string ActionName(int p_index)
+    {
+        return Actions[p_index].Name;
+    }
+
     public void PAChange(int p_pa)
     {
         Pa -= p_pa;
