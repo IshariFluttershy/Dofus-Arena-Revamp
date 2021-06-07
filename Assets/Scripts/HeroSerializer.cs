@@ -32,6 +32,8 @@ public class HeroSerializer : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(this);
+
         //Actions read
         string destination = Application.dataPath + "/actionsList.json";
         StreamReader actionsFile;

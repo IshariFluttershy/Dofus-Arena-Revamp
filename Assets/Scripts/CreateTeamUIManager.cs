@@ -20,6 +20,7 @@ public class CreateTeamUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        DontDestroyOnLoad(this);
         canvas = GameObject.Find("Canvas");
         teamUIs = new List<TeamUI>();
         teamDatas = HeroSerializer.Instance.TeamDatas;

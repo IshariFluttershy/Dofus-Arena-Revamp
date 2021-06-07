@@ -5,9 +5,24 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
+    static ActionsManager _instance;
+    public static ActionsManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<ActionsManager>();
+                
+            }
+
+            return _instance;
+        }
+    }
+
     public void Start()
     {
-        
+        DontDestroyOnLoad(this);
     }
     public void ChangeScene(string sceneName)
 	{

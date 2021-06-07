@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/StartMenu.unity
     guid: 770f6e4aa24006c44901e02db6a39b55
   - enabled: 1
+    path: Assets/Scenes/VisualizeTeamsMenu.unity
+    guid: 00f8988eb1449a3408c12b0e4fbac34a
+  - enabled: 1
+    path: Assets/Scenes/ModifyTeamsMenu.unity
+    guid: e20e71aeb880ce14e86edc3f73c82d94
+  - enabled: 1
     path: Assets/Scenes/BattleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
