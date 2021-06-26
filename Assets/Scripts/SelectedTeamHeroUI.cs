@@ -21,24 +21,33 @@ public class SelectedTeamHeroUI : MonoBehaviour
 
     public void UpdateUIDisplay(HeroData p_hero)
     {
-        heroData = p_hero;
-
-        Transform Image = transform.Find("Image");
         Transform Name = transform.Find("Name");
 
-        Transform Spell1 = transform.Find("Spell1");
-        Transform Spell2 = transform.Find("Spell2");
-        Transform Spell3 = transform.Find("Spell3");
-        Transform Spell4 = transform.Find("Spell4");
-        Transform Spell5 = transform.Find("Spell5");
-        Transform Spell6 = transform.Find("Spell6");
+        if (p_hero == null)
+        {
+            Name.GetComponent<Text>().text = "Create Hero";
+            heroData = null;
+        }
+        else
+        {
+            heroData = p_hero;
 
-        Transform Weapon = transform.Find("Weapon");
-        Transform Head = transform.Find("Head");
-        Transform Torso = transform.Find("Torso");
-        Transform Back = transform.Find("Back");
-        Transform Bonus = transform.Find("Bonus");
+            Transform Image = transform.Find("Image");
 
-        Name.GetComponent<Text>().text = p_hero.Name;
+            Transform Spell1 = transform.Find("Spell1");
+            Transform Spell2 = transform.Find("Spell2");
+            Transform Spell3 = transform.Find("Spell3");
+            Transform Spell4 = transform.Find("Spell4");
+            Transform Spell5 = transform.Find("Spell5");
+            Transform Spell6 = transform.Find("Spell6");
+
+            Transform Weapon = transform.Find("Weapon");
+            Transform Head = transform.Find("Head");
+            Transform Torso = transform.Find("Torso");
+            Transform Back = transform.Find("Back");
+            Transform Bonus = transform.Find("Bonus");
+
+            Name.GetComponent<Text>().text = p_hero.Name;
+        }
     }
 }

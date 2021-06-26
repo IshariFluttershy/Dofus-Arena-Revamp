@@ -8,6 +8,9 @@ public class CreateTeamUIManager : MonoBehaviour
     public TeamUI SelectedTeam;
     List<TeamData> teamDatas;
 
+    public TeamData SelectedTeamData { get; private set; }
+    public bool CreatingTeam { get; private set; }
+
     [SerializeField]
     GameObject teamUIPrefab;
     [SerializeField]
@@ -15,13 +18,21 @@ public class CreateTeamUIManager : MonoBehaviour
 
     List<TeamUI> teamUIs;
 
-    GameObject canvas;
+    GameObject content;
+
+    [SerializeField]
+    TeamBuilderUI teamBuilderUI;
+    [SerializeField]
+    ModifyHeroUI modifyHeroUI;
+    [SerializeField]
+    GameObject vizualiseTeamUI;
+    [SerializeField]
+    GameObject createHeroUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        DontDestroyOnLoad(this);
-        canvas = GameObject.Find("Canvas");
+        content = GameObject.Find("Content");
         teamUIs = new List<TeamUI>();
         teamDatas = HeroSerializer.Instance.TeamDatas;
         UpdateTeamDatasDisplay();
@@ -42,18 +53,18 @@ public class CreateTeamUIManager : MonoBehaviour
     {
         foreach (var ui in teamUIs)
         {
-            Destroy(ui);
+            Destroy(ui.gameObject);
         }
+
+        teamUIs.Clear();
 
         int i = 0;
 
         foreach (var teamData in teamDatas)
         {
-            GameObject teamUIObject = Instantiate(teamUIPrefab, canvas.transform);
+            GameObject teamUIObject = Instantiate(teamUIPrefab, Vector3.zero, Quaternion.identity, content.transform);
 
-            Vector3 oldPos = teamUIObject.transform.position;
-            teamUIObject.transform.position = oldPos + new Vector3(0, i * -160, 0);
-
+            teamUIObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(6.5f, -8.5f + i*-60.0f);
             TeamUI teamUI = teamUIObject.GetComponent<TeamUI>();
             teamUI.Init(this, teamData);
             teamUIs.Add(teamUI);
@@ -73,6 +84,63 @@ public class CreateTeamUIManager : MonoBehaviour
     public void SelectTeam(TeamUI p_teamUI)
     {
         SelectedTeam = p_teamUI;
+        SelectedTeamData = SelectedTeam.TeamData;
         UpdateSelectedUIDisplay();
+    }
+
+    public void CreateTeam()
+    {
+        CreatingTeam = true;
+        StartTeamBuildingUI();
+    }
+
+    public void ModifyTeam()
+    {
+        CreatingTeam = false;
+        StartTeamBuildingUI();
+    }
+
+    public void StartTeamBuildingUI()
+    {
+        teamBuilderUI.gameObject.SetActive(true);
+        teamBuilderUI.CreateTeam();
+        modifyHeroUI.gameObject.SetActive(false);
+        vizualiseTeamUI.SetActive(false);
+        createHeroUI.SetActive(false);
+    }
+
+    public void SaveTeam(TeamData p_team)
+    {
+        if (CreatingTeam == true)
+            teamDatas.Add(p_team);
+        else
+            teamDatas[teamDatas.IndexOf(SelectedTeamData)] = p_team;
+
+        SelectedTeamData = p_team;
+
+        HeroSerializer.Instance.SaveTeam(p_team);
+
+        teamBuilderUI.gameObject.SetActive(false);
+        modifyHeroUI.gameObject.SetActive(false);
+        vizualiseTeamUI.SetActive(true);
+        createHeroUI.SetActive(false);
+
+        UpdateCreateTeamUI();
+    }
+
+    public void CancelTeam()
+    {
+        teamBuilderUI.gameObject.SetActive(false);
+        modifyHeroUI.gameObject.SetActive(false);
+        vizualiseTeamUI.SetActive(true);
+        createHeroUI.SetActive(false);
+
+        UpdateCreateTeamUI();
+    }
+
+    public void UpdateCreateTeamUI()
+    {
+        UpdateSelectedUIDisplay();
+        UpdateTeamDatasDisplay();
     }
 }

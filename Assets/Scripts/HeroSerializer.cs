@@ -28,12 +28,15 @@ public class HeroSerializer : MonoBehaviour
     List<GridCell> playerTwoStartCells;
 
     ActionsWrapper actionsWrapper;
+    ClassesDataWrapper classesWrapper;
+    StuffsWrapper stuffsWrapper;
     public List<TeamData> TeamDatas { get; private set; }
 
     private void Awake()
     {
         DontDestroyOnLoad(this);
 
+        Debug.Log("Before Actions");
         //Actions read
         string destination = Application.dataPath + "/actionsList.json";
         StreamReader actionsFile;
@@ -47,6 +50,7 @@ public class HeroSerializer : MonoBehaviour
 
         actionsFile.Close();
 
+        Debug.Log("Before Teams");
         TeamDatas = new List<TeamData>();
 
         string[] files = Directory.GetFiles(Application.dataPath + "/Teams", "*.json");
@@ -84,14 +88,48 @@ public class HeroSerializer : MonoBehaviour
 
 
 
+
+        Debug.Log("Before classes");
+
+        //Classes
+        destination = Application.dataPath + "/classesList.json";
+        StreamReader classesFile;
+
+        if (File.Exists(destination))
+            classesFile = File.OpenText(destination);
+        else
+            return;
+
+        classesWrapper = JsonUtility.FromJson<ClassesDataWrapper>(classesFile.ReadToEnd());
+
+        classesFile.Close();
+
+
+        Debug.Log("Before stuffs");
+        //stuffs
+        destination = Application.dataPath + "/stuffsList.json";
+        StreamReader stuffsFile;
+
+        if (File.Exists(destination))
+            stuffsFile = File.OpenText(destination);
+        else
+            return;
+
+        stuffsWrapper = JsonUtility.FromJson<StuffsWrapper>(stuffsFile.ReadToEnd());
+
+        stuffsFile.Close();
+
+        Debug.Log("after stuffs");
+
         var actionList = new List<ActionData>();
 
         foreach (var action in actionsWrapper.actions)
         {
-            actionList.Add(action); 
+            actionList.Add(action);
         }
 
-        ActionsManager.Instance.Init(actionList);
+
+        DataManager.Instance.Init(actionList, classesWrapper.classes, stuffsWrapper.stuffs);
 
         //HeroData heroData = new HeroData();
         //heroData.MaxHP = 20;
@@ -172,6 +210,7 @@ public class HeroSerializer : MonoBehaviour
             heroData.ActionsId = new List<int>();
             heroData.ActionsId.Add(0);
             heroData.ActionsId.Add(2);
+            heroData.Class = 0;
 
             team.HeroesDatas.Add(heroData);
 
@@ -182,6 +221,7 @@ public class HeroSerializer : MonoBehaviour
             heroData.Name = "Yupa";
             heroData.ActionsId = new List<int>();
             heroData.ActionsId.Add(1);
+            heroData.Class = 0;
 
             team.HeroesDatas.Add(heroData);
 
@@ -193,6 +233,7 @@ public class HeroSerializer : MonoBehaviour
             heroData.ActionsId = new List<int>();
             heroData.ActionsId.Add(0);
             heroData.ActionsId.Add(1);
+            heroData.Class = 0;
 
             team.HeroesDatas.Add(heroData);
 
@@ -205,7 +246,7 @@ public class HeroSerializer : MonoBehaviour
 
             string actionJson = JsonUtility.ToJson(team, true);
 
-            string destination = Application.dataPath + "/NausicaaTeam.json";
+            string destination = Application.dataPath + "/Teams/NausicaaTeam.json";
             StreamWriter file;
 
             if (File.Exists(destination)) return;
@@ -215,5 +256,106 @@ public class HeroSerializer : MonoBehaviour
 
             file.Close();
         }
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            ClassesDataWrapper wrapper = new ClassesDataWrapper();
+
+            var iskaiWarrior = new HeroClassData(HeroClass.IskaiWarrior);
+            iskaiWarrior.MaxHP = 50;
+            iskaiWarrior.MaxPA = 6;
+            iskaiWarrior.MaxPM = 5;
+            iskaiWarrior.BaseRawDamages = 2;
+
+            var celtWarrior = new HeroClassData(HeroClass.CeltWarrior);
+            celtWarrior.MaxHP = 80;
+            celtWarrior.MaxPA = 6;
+            celtWarrior.MaxPM = 3;
+            celtWarrior.BaseRawDamages = 8;
+
+            var celtMagician = new HeroClassData(HeroClass.CeltMagician);
+            celtMagician.MaxHP = 45;
+            celtMagician.MaxPA = 6;
+            celtMagician.MaxPM = 3;
+            celtMagician.BaseRawDamages = 0;
+
+            var iskaiMagician = new HeroClassData(HeroClass.IskaiMagician);
+            iskaiMagician.MaxHP = 25;
+            iskaiMagician.MaxPA = 6;
+            iskaiMagician.MaxPM = 5;
+            iskaiMagician.BaseRawDamages = 2;
+
+
+            wrapper.classes.Add(iskaiWarrior);
+            wrapper.classes.Add(iskaiMagician);
+            wrapper.classes.Add(celtWarrior);
+            wrapper.classes.Add(celtMagician);
+
+            string classesJson = JsonUtility.ToJson(wrapper, true);
+
+            string destination = Application.dataPath + "/classesList.json";
+            StreamWriter file;
+
+            if (File.Exists(destination)) return; //file = File.OpenText(destination);
+            else file = File.CreateText(destination);
+
+            file.Write(classesJson);
+
+            file.Close();
+        }
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            StuffsWrapper wrapper = new StuffsWrapper();
+
+            var stuff1 = new StuffData(StuffType.Head);
+            stuff1.MaxHP = 20;
+            stuff1.MaxPA = 1;
+            
+
+            var stuff2 = new StuffData(StuffType.Head);
+            stuff2.MaxHP = 4;
+            stuff2.MaxPM = 3;
+
+            var stuff3 = new StuffData(StuffType.Bonus);
+            stuff3.MaxHP = 10;
+            stuff3.MaxPM = 1;
+
+            wrapper.stuffs.Add(stuff1);
+            wrapper.stuffs.Add(stuff2);
+            wrapper.stuffs.Add(stuff3);
+
+            string stuffJson = JsonUtility.ToJson(wrapper, true);
+
+            string destination = Application.dataPath + "/stuffsList.json";
+            StreamWriter file;
+
+            if (File.Exists(destination)) return; //file = File.OpenText(destination);
+            else file = File.CreateText(destination);
+
+            file.Write(stuffJson);
+
+            file.Close();
+        }
+    }
+
+    public void SaveTeam(TeamData p_team)
+    {
+        string actionJson = JsonUtility.ToJson(p_team, true);
+
+        string destination = Application.dataPath + "/Teams/" + p_team.Name + ".json";
+        StreamWriter file;
+
+        if (File.Exists(destination))
+        {
+            File.Delete(destination);
+            file = File.CreateText(destination);
+        } 
+        else 
+            file = File.CreateText(destination);
+
+        file.Write(actionJson);
+
+        file.Close();
     }
 }

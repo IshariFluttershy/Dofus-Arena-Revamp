@@ -60,7 +60,7 @@ public class Hero : MonoBehaviour
 
         foreach (var id in p_data.ActionsId)
         {
-            var data = ActionsManager.Instance.GetActionDataFromId(id);
+            var data = DataManager.Instance.GetActionDataFromId(id);
             var action = new Action();
             action.SetDatas(data);
             Actions.Add(action);

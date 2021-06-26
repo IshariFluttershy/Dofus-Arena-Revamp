@@ -5,14 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
-    static ActionsManager _instance;
-    public static ActionsManager Instance
+    static SceneChanger _instance;
+    public static SceneChanger Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = GameObject.FindObjectOfType<ActionsManager>();
+                _instance = GameObject.FindObjectOfType<SceneChanger>();
                 
             }
 

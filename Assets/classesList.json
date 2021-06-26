@@ -1,0 +1,68 @@
+{
+    "classes": [
+        {
+            "MaxHP": 50,
+            "MaxPM": 5,
+            "MaxPA": 6,
+            "Name": "",
+            "BasePercentDamages": 0,
+            "BaseRawDamages": 2,
+            "BasePercentResistances": 0,
+            "BaseRawResistances": 0,
+            "BaseBonusRange": 0,
+            "BaseBonusHeal": 0,
+            "BaseReturnDamages": 0,
+            "Description": "",
+            "IconPath": "",
+            "Class": 0
+        },
+        {
+            "MaxHP": 25,
+            "MaxPM": 5,
+            "MaxPA": 6,
+            "Name": "",
+            "BasePercentDamages": 0,
+            "BaseRawDamages": 2,
+            "BasePercentResistances": 0,
+            "BaseRawResistances": 0,
+            "BaseBonusRange": 0,
+            "BaseBonusHeal": 0,
+            "BaseReturnDamages": 0,
+            "Description": "",
+            "IconPath": "",
+            "Class": 1
+        },
+        {
+            "MaxHP": 80,
+            "MaxPM": 3,
+            "MaxPA": 6,
+            "Name": "",
+            "BasePercentDamages": 0,
+            "BaseRawDamages": 8,
+            "BasePercentResistances": 0,
+            "BaseRawResistances": 0,
+            "BaseBonusRange": 0,
+            "BaseBonusHeal": 0,
+            "BaseReturnDamages": 0,
+            "Description": "",
+            "IconPath": "",
+            "Class": 2
+        },
+        {
+            "MaxHP": 45,
+            "MaxPM": 3,
+            "MaxPA": 6,
+            "Name": "",
+            "BasePercentDamages": 0,
+            "BaseRawDamages": 0,
+            "BasePercentResistances": 0,
+            "BaseRawResistances": 0,
+            "BaseBonusRange": 0,
+            "BaseBonusHeal": 0,
+            "BaseReturnDamages": 0,
+            "Description": "",
+            "IconPath": "",
+            "Class": 4
+        }
+    ]
+}
